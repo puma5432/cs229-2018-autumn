@@ -17,7 +17,7 @@ args = parser.parse_args()
 if args.p_num == 0 or args.p_num == 1:
     p01b(train_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_train.csv',
          eval_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_valid.csv',
-         pred_path='output/p01b_pred_1.txt')
+         pred_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/src/output/p01b_pred_1.txt')
     sys.exit()
 
     p01b(train_path='../data/ds2_train.csv',

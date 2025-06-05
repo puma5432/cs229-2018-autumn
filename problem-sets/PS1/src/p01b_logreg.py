@@ -1,5 +1,6 @@
 import numpy as np
 import util
+import os
 
 from linear_model import LinearModel
 
@@ -16,13 +17,19 @@ def main(train_path, eval_path, pred_path):
 
     # *** START CODE HERE ***
     print("Starting training for log_reg using netwon's method")
-
     log_reg = LogisticRegression()
-    log_reg.theta = np.random.randn(3)
-    print(log_reg.theta)
-    # log_reg.fit(x=x_train, y=y_train)
-    conf_arr = log_reg.predict(x_train)
-    print(conf_arr)
+    log_reg.fit(x=x_train, y=y_train)
+
+    x_val, y_val = util.load_dataset(eval_path, add_intercept=True)
+    y_val_pred = log_reg.predict(x_val)
+
+    os.makedirs(os.path.dirname(pred_path), exist_ok=True)
+    np.savetxt(pred_path, y_val_pred.astype(int), fmt='%d')
+
+    acc = 1 - np.sum(y_val_pred - y_val) / len(y_val)
+    print("Validation accuracy: ", acc)
+
+
 
 
     # *** END CODE HERE ***
@@ -49,23 +56,20 @@ class LogisticRegression(LinearModel):
         """
         # *** START CODE HERE ***
 
-        # def g(z): # sigmoid
-        #     return 1 / (1 + np.exp(-z))
 
         m,n = x.shape
-        print(f"m: {m}, n: {n}")
-        print(x)
+        # print(f"m: {m}, n: {n}")
+        # print(x)
 
         # initialize
         self.theta = np.zeros((n))
-        eps = 10e-5
+
+        eps = 1e-4 #or 10e-5
 
         H = np.zeros((n,n))
         grad = np.zeros((n))
 
-        epoch = 0
         while True:
-            epoch += 1
 
             # form hessian and grad
             for i in range(len(x)):
@@ -78,15 +82,15 @@ class LogisticRegression(LinearModel):
             H_inv = np.linalg.inv(H)
 
             # do 1 update of newton's method- hessian
-            self.theta = self.theta - H_inv @ grad
+            update = H_inv @ grad
+            self.theta = self.theta - update
 
 
-            # if epoch % 100 == 0:
-            #     print(self)
-            if np.linalg.norm(H_inv @ grad, ord=1) < eps:
+            if np.linalg.norm(update, ord=1) < eps:
+                print(f"Final 1-norm: {np.linalg.norm(update, ord=1)}")
                 return
             # else:
-            #     print(f"Update 1-norm: {np.linalg.norm(H_inv @ grad, ord=1)}")
+                # print(f"Update 1-norm: {np.linalg.norm(update, ord=1)}")
 
 
 
@@ -103,7 +107,8 @@ class LogisticRegression(LinearModel):
         """
         # *** START CODE HERE ***
         confidence_arr = self.g(x@self.theta)
-        print("DOT: ", x@self.theta)
-        return confidence_arr
+        y_pred = (confidence_arr >= 0.5)
+
+        return y_pred
 
         # *** END CODE HERE ***
