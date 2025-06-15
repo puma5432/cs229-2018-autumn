@@ -26,8 +26,11 @@ def main(train_path, eval_path, pred_path):
     os.makedirs(os.path.dirname(pred_path), exist_ok=True)
     np.savetxt(pred_path, y_val_pred.astype(int), fmt='%d')
 
-    acc = 1 - np.sum(y_val_pred - y_val) / len(y_val)
+    val_error = np.sum(np.abs(y_val_pred - y_val)) / len(y_val)
+    acc = 1 - val_error
     print("Validation accuracy: ", acc)
+    print("Validation error: ", val_error)
+
 
 
 
