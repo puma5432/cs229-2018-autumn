@@ -17,13 +17,15 @@ args = parser.parse_args()
 if args.p_num == 0 or args.p_num == 1:
     base_path = "/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1"
 
-#     p01b(train_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_train.csv',
-#          eval_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_valid.csv',
-#          pred_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/src/output/p01b_pred_1.txt')
+    p01b(train_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_train.csv',
+         eval_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_valid.csv',
+         pred_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/src/output/p01b_pred_1.txt')
 
-#     p01b(train_path=base_path+'/data/ds2_train.csv',
-#          eval_path=base_path+'/data/ds2_valid.csv',
-#          pred_path='output/p01b_pred_2.txt')
+    p01b(train_path=base_path+'/data/ds2_train.csv',
+         eval_path=base_path+'/data/ds2_valid.csv',
+         pred_path='output/p01b_pred_2.txt')
+
+    # sys.exit()
 
     p01e(train_path=base_path+'/data/ds1_train.csv',
          eval_path=base_path+'/data/ds1_valid.csv',
@@ -35,7 +37,6 @@ if args.p_num == 0 or args.p_num == 1:
          eval_path=base_path+'/data/ds2_valid.csv',
          pred_path='output/p01e_pred_2.txt')
 
-    sys.exit()
 
 # Problem 2
 if args.p_num == 0 or args.p_num == 2:
