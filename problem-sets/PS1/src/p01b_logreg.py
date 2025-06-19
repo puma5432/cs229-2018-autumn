@@ -2,6 +2,9 @@ import numpy as np
 import util
 import os
 
+import time
+from datetime import datetime
+
 from linear_model import LinearModel
 
 
@@ -69,7 +72,8 @@ class LogisticRegression(LinearModel):
 
 
         m,n = x.shape
-        # print(f"m: {m}, n: {n}")
+        print(f"m: {m}, n: {n}")
+
         # print(x)
 
         # initialize
@@ -79,6 +83,9 @@ class LogisticRegression(LinearModel):
 
         H = np.zeros((n,n))
         grad = np.zeros((n))
+        steps = 0
+        start = time.time()
+        print(datetime.now().time())
 
         while True:
 
@@ -94,14 +101,28 @@ class LogisticRegression(LinearModel):
 
             # do 1 update of newton's method- hessian
             update = H_inv @ grad
-            self.theta = self.theta - update
+            self.theta = self.theta - (update)
 
 
-            if np.linalg.norm(update, ord=1) < eps:
-                print(f"Final 1-norm: {np.linalg.norm(update, ord=1)}")
+            update_norm = np.linalg.norm(update, ord=1)
+            if update_norm < eps:
+                print(f"Final 1-norm: {update_norm}\n Num steps: {steps}")
+                end = time.time()
+                print(datetime.now().time())
+                print(f"Total time: {end - start}")
                 return
-            # else:
-                # print(f"Update 1-norm: {np.linalg.norm(update, ord=1)}")
+            else:
+                # print(f"Update 1-norm: {update_norm}")
+                steps += 1
+
+            # normal update (t): 252116 (21m)
+            # halved update (t): (no result yet)
+            # normal update (y): (30341) (5m)
+            # halved update (y): (120826) (10:30s)
+            # - might be 2x as many steps. Or might be less than that if
+            #   my theory is right and newton method continuously 'overshoots'
+
+
 
 
 

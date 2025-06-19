@@ -13,9 +13,12 @@ parser.add_argument('p_num', nargs='?', type=int, default=0,
                     help='Problem number to run, 0 for all problems.')
 args = parser.parse_args()
 
+base_path = "/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1"
+args.p_num = 2
+
 # Problem 1
 if args.p_num == 0 or args.p_num == 1:
-    base_path = "/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1"
+
 
     p01b(train_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_train.csv',
          eval_path='/Users/cachemiss/Documents/projects/cs229-2018-autumn/problem-sets/PS1/data/ds1_valid.csv',
@@ -40,26 +43,26 @@ if args.p_num == 0 or args.p_num == 1:
 
 # Problem 2
 if args.p_num == 0 or args.p_num == 2:
-    p02(train_path='../data/ds3_train.csv',
-        valid_path='../data/ds3_valid.csv',
-        test_path='../data/ds3_test.csv',
-        pred_path='output/p02X_pred.txt')
+    p02(train_path=base_path+'/data/ds3_train.csv',
+        valid_path=base_path+'/data/ds3_valid.csv',
+        test_path=base_path+'/data/ds3_test.csv',
+        pred_path=base_path+'output/p02X_pred.txt')
 
 # Problem 3
 if args.p_num == 0 or args.p_num == 3:
     p03(lr=1e-7,
-        train_path='../data/ds4_train.csv',
-        eval_path='../data/ds4_valid.csv',
+        train_path='/data/ds4_train.csv',
+        eval_path='/data/ds4_valid.csv',
         pred_path='output/p03d_pred.txt')
 
 # Problem 5
 if args.p_num == 0 or args.p_num == 5:
     p05b(tau=5e-1,
-         train_path='../data/ds5_train.csv',
-         eval_path='../data/ds5_valid.csv')
+         train_path='/data/ds5_train.csv',
+         eval_path='/data/ds5_valid.csv')
 
     p05c(tau_values=[3e-2, 5e-2, 1e-1, 5e-1, 1e0, 1e1],
-         train_path='../data/ds5_train.csv',
-         valid_path='../data/ds5_valid.csv',
-         test_path='../data/ds5_test.csv',
+         train_path='/data/ds5_train.csv',
+         valid_path='/data/ds5_valid.csv',
+         test_path='/data/ds5_test.csv',
          pred_path='output/p05c_pred.txt')
