@@ -83,9 +83,12 @@ class LogisticRegression(LinearModel):
 
         H = np.zeros((n,n))
         grad = np.zeros((n))
-        steps = 0
+        step = 1
         start = time.time()
         print(datetime.now().time())
+
+        weight_arr = np.zeros((30000, 3))
+        theta_history = []
 
         while True:
 
@@ -102,18 +105,21 @@ class LogisticRegression(LinearModel):
             # do 1 update of newton's method- hessian
             update = H_inv @ grad
             self.theta = self.theta - (update)
+            # weight_arr[step] = self.theta
+            theta_history.append(self.theta.copy())
 
 
             update_norm = np.linalg.norm(update, ord=1)
             if update_norm < eps:
-                print(f"Final 1-norm: {update_norm}\n Num steps: {steps}")
+                print(f"Final 1-norm: {update_norm}\n Num steps: {step}")
                 end = time.time()
                 print(datetime.now().time())
                 print(f"Total time: {end - start}")
-                return
+                theta_history = np.array(theta_history)
+                return theta_history
             else:
                 # print(f"Update 1-norm: {update_norm}")
-                steps += 1
+                step += 1
 
             # normal update (t): 252116 (21m)
             # halved update (t): (no result yet)
