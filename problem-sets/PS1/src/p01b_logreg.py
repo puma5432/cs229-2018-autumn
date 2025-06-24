@@ -92,20 +92,28 @@ class LogisticRegression(LinearModel):
 
         while True:
 
-            # form hessian and grad
-            for i in range(len(x)):
-                # Hessian of i-th example
-                g_z = self.g(x[i]@self.theta)
-                H += -1* g_z*(1-g_z) * np.outer(x[i], x[i])
+            # Form hessian and grad
+            z_vec = x@self.theta # (m,n), (n,) -> (m,)
+            g_z_vec = 1 / (1+ np.exp(-z_vec))
 
-                grad += (y[i]-g_z) * x[i]
+            grad = x.T @ (y- g_z_vec)
+
+            H = -np.einsum('i,ij,ik->jk', g_z_vec * (1 - g_z_vec), x, x)
+
+
+            # Vectorized
+            # (testing with e=1e-2)
+            # 13.816116094589233 unvectorized
+            # 0.007848978042602539 S = np.diag(g_z * (1-g_z)) -> H = quadratic form of x and S
+            # 0.0011420249938964844 np.einsum
+
 
             H_inv = np.linalg.inv(H)
 
             # do 1 update of newton's method- hessian
             update = H_inv @ grad
             self.theta = self.theta - (update)
-            # weight_arr[step] = self.theta
+
             theta_history.append(self.theta.copy())
 
 
