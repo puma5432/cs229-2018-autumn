@@ -153,8 +153,8 @@ class LogisticRegression(LinearModel):
         """
         # *** START CODE HERE ***
         confidence_arr = self.g(x@self.theta)
-        y_pred = (confidence_arr >= 0.5)
+        # y_pred = (confidence_arr >= 0.5)
 
-        return y_pred
+        return confidence_arr
 
         # *** END CODE HERE ***

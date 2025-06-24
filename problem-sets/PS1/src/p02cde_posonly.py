@@ -30,28 +30,32 @@ def main(train_path, valid_path, test_path, pred_path):
 
     # *** START CODE HERE ***
 
+    x_train, t_train = util.load_dataset(train_path, label_col='t', add_intercept=True)
+    x_train, y_train = util.load_dataset(train_path, label_col='y', add_intercept=True)
+
+    x_test, t_test = util.load_dataset(test_path, label_col='t', add_intercept=True)
+    x_test, y_test = util.load_dataset(test_path, label_col='y', add_intercept=True)
+
+    x_val, y_val = util.load_dataset(valid_path, label_col='y', add_intercept=True)
+
     # Part (c): Train and test on true labels
     # Make sure to save outputs to pred_path_c
-    # x_train, t_train = util.load_dataset(train_path, label_col='t', add_intercept=True)
-    # x_test, t_test = util.load_dataset(test_path, label_col='t', add_intercept=True)
-
 
     # # Train
-    # model_t = LogisticRegression()
-    # model_t.fit(x=x_train, y=t_train)
+    model_t = LogisticRegression()
+    model_t.fit(x=x_train, y=t_train)
 
-    # # Test
-    # t_pred_c = model_t.predict(x_test)
+    # Test
+    t_pred_c = model_t.predict(x_test)
 
-    # # Eval
-    # t_test_acc = np.sum(t_pred_c == t_test) / len(t_test)
-    # print("Test accuracy (t labels): ", t_test_acc)
+    # Eval
+    t_test_acc = np.sum(t_pred_c == t_test) / len(t_test)
+    print("Test accuracy (t labels): ", t_test_acc)
 
 
     # Part (d): Train on y-labels and test on true labels
     # Make sure to save outputs to pred_path_d
-    x_train, y_train = util.load_dataset(train_path, label_col='y', add_intercept=True)
-    x_test, y_test = util.load_dataset(test_path, label_col='y', add_intercept=True)
+
 
     # Train
     model_y = LogisticRegression()
@@ -66,7 +70,7 @@ def main(train_path, valid_path, test_path, pred_path):
     print("Test accuracy (y): ", y_test_acc)
 
     ## Plot, static colors
-    # plot_with_static_color(theta_history)
+    ## plot_with_static_color(theta_history)
 
     ## Plot, dynamic colors
     plot_with_dynamic_color(theta_history)
@@ -75,6 +79,13 @@ def main(train_path, valid_path, test_path, pred_path):
 
     # Part (e): Apply correction factor using validation set and test on true labels
     # Plot and use np.savetxt to save outputs to pred_path_e
+
+    labeled_idx = np.where(y_val == 1) # Running this over labeled examples
+    t_pred = model_t.predict(x_val[labeled_idx])
+    alpha = np.sum(t_pred) / len(labeled_idx)
+    print(f"Alpha: {alpha}")
+
+
     # *** END CODER HERE
 
 
